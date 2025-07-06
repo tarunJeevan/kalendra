@@ -1,14 +1,14 @@
-'use client';
+'use client'
 
-import { PrivateNavLinks } from "@/constants";
-import { cn } from "@/lib/utils";
-import { SignedIn, UserButton } from "@clerk/nextjs";
-import Image from "next/image";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { PrivateNavLinks } from "@/constants"
+import { cn } from "@/lib/utils"
+import { SignedIn, UserButton } from "@clerk/nextjs"
+import Image from "next/image"
+import Link from "next/link"
+import { usePathname } from "next/navigation"
 
 export default function PrivateNavBar() {
-    const pathname = usePathname();
+    const pathname = usePathname()
 
     return (
         <nav className="flex justify-between items-center fixed z-50 w-full h-28 bg-gray-200 px-10 gap-4 shadow-2xl mb-28">
@@ -26,7 +26,7 @@ export default function PrivateNavBar() {
             <section className="sticky top-0 flex justify-between text-black">
                 <div className="flex flex-1 max-sm:gap-0 sm:gap-6">
                     {PrivateNavLinks.map((item) => {
-                        const isActive = pathname === item.route || pathname.startsWith(`${item.route}/`);
+                        const isActive = pathname === item.route || pathname.startsWith(`${item.route}/`)
 
                         return (
                             <Link

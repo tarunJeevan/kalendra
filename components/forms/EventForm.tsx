@@ -1,19 +1,19 @@
-'use client';
+'use client'
 
-import { eventFormSchema } from "@/events";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
-import { Input } from "../ui/input";
-import { Textarea } from "../ui/textarea";
-import { Switch } from "../ui/switch";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "../ui/alert-dialog";
-import { Button } from "../ui/button";
-import Link from "next/link";
-import { useTransition } from "react";
-import { createEvent, deleteEvent, updateEvent } from "@/server/actions/events";
-import { useRouter } from "next/navigation";
+import { eventFormSchema } from "@/schemas/events"
+import { useForm } from "react-hook-form"
+import { z } from "zod"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../ui/form"
+import { Input } from "../ui/input"
+import { Textarea } from "../ui/textarea"
+import { Switch } from "../ui/switch"
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "../ui/alert-dialog"
+import { Button } from "../ui/button"
+import Link from "next/link"
+import { useTransition } from "react"
+import { createEvent, deleteEvent, updateEvent } from "@/server/actions/events"
+import { useRouter } from "next/navigation"
 
 // Handles creating, editing, and deleting events
 export default function EventForm({ event }: {
@@ -25,9 +25,9 @@ export default function EventForm({ event }: {
         isPublic: boolean       // Indicates event visibility
     }
 }) {
-    const router = useRouter();
+    const router = useRouter()
 
-    const [isDeletePending, startDeleteTransition] = useTransition();
+    const [isDeletePending, startDeleteTransition] = useTransition()
 
     const form = useForm<z.infer<typeof eventFormSchema>>({
         resolver: zodResolver(eventFormSchema),
@@ -43,21 +43,21 @@ export default function EventForm({ event }: {
                 isPublic: true,
                 durationInMins: 30,
             },
-    });
+    })
 
     // Handle form submission
     async function onSubmit(values: z.infer<typeof eventFormSchema>) {
-        const action = event == null ? createEvent : updateEvent.bind(null, event.id);
+        const action = event == null ? createEvent : updateEvent.bind(null, event.id)
 
         try {
-            await action(values);
+            await action(values)
 
             // Redirect to '/events'
-            router.push('/events');
+            router.push('/events')
         } catch (error: any) {
             form.setError("root", {
                 message: `There was an error saving your event: ${error.message}`
-            });
+            })
         }
     }
 
@@ -181,15 +181,15 @@ export default function EventForm({ event }: {
                                             startDeleteTransition(async () => {
                                                 try {
                                                     // Try to delete event by ID
-                                                    await deleteEvent(event.id);
-                                                    router.push('/events');
+                                                    await deleteEvent(event.id)
+                                                    router.push('/events')
                                                 } catch (error: any) {
                                                     // Show error at root level
                                                     form.setError("root", {
                                                         message: `There was an error deleting your event: ${error.message}`
-                                                    });
+                                                    })
                                                 }
-                                            });
+                                            })
                                         }}
                                     >
                                         Delete

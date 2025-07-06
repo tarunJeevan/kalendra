@@ -1,27 +1,27 @@
-import EventForm from "@/components/forms/EventForm";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { getEvent } from "@/server/actions/events";
-import { auth } from "@clerk/nextjs/server";
+import EventForm from "@/components/forms/EventForm"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { getEvent } from "@/server/actions/events"
+import { auth } from "@clerk/nextjs/server"
 
 export default async function EditEventPage({
     params, // Extract eventId from URL params
 }: {
     params: Promise<{ eventId: string }>
 }) {
-    const { eventId } = await params;
+    const { eventId } = await params
 
     // Get authenticated user
-    const { userId, redirectToSignIn } = await auth();
+    const { userId, redirectToSignIn } = await auth()
 
     if (!userId)
-        return redirectToSignIn();
+        return redirectToSignIn()
 
     // Fetch event from database using eventId and userId
-    const event = await getEvent(eventId, userId);
+    const event = await getEvent(eventId, userId)
 
     // TODO: Replace h1 with Not Found page or something else
     if (!event)
-        return <h1>Event not found!</h1>;
+        return <h1>Event not found!</h1>
 
     return (
         <Card

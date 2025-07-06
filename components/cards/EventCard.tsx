@@ -1,9 +1,9 @@
-import { cn } from "@/lib/utils";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../ui/card";
-import { formatEventDuration } from "@/lib/formatters";
-import { Button } from "../ui/button";
-import Link from "next/link";
-import CopyEventButton from "../CopyEventButton";
+import { cn } from "@/lib/utils"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../ui/card"
+import { formatEventDuration } from "@/lib/formatters"
+import { Button } from "../ui/button"
+import Link from "next/link"
+import CopyEventButton from "../CopyEventButton"
 
 // EventCardProps type def
 type EventCardProps = {
@@ -13,7 +13,7 @@ type EventCardProps = {
     isPublic: boolean,
     durationInMins: number,
     clerkUserId: string
-};
+}
 
 export default function EventCard({
     id,

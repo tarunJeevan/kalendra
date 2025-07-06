@@ -1,8 +1,8 @@
-'use client';
+'use client'
 
-import { SignIn } from "@clerk/nextjs";
-import { neobrutalism } from "@clerk/themes";
-import Image from "next/image";
+import { SignIn } from "@clerk/nextjs"
+import { neobrutalism } from "@clerk/themes"
+import Image from "next/image"
 
 export default function LandingPage() {
     return (

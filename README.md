@@ -11,3 +11,4 @@
 - [ ] Event searching and sorting via event names, tags, etc.
 - [ ] Allow non-users to create events for a registered user and send an invite for an available time slot
 - [ ] Implement multi-select functionality to select multiple events to delete or edit (only change visibility)
+- [ ] NOTE: Add favicon based on logo

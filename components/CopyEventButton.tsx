@@ -1,11 +1,11 @@
-'use client';
+'use client'
 
-import { VariantProps } from "class-variance-authority";
-import { Button, buttonVariants } from "./ui/button";
-import { CopyIcon } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { useState } from "react";
-import { toast } from "sonner";
+import { VariantProps } from "class-variance-authority"
+import { Button, buttonVariants } from "./ui/button"
+import { CopyIcon } from "lucide-react"
+import { cn } from "@/lib/utils"
+import { useState } from "react"
+import { toast } from "sonner"
 
 // CopyEventButtonProps type def
 interface CopyEventButtonProps extends
@@ -14,10 +14,10 @@ interface CopyEventButtonProps extends
 
     eventId: string,
     clerkUserId: string,
-};
+}
 
 // CopyState type def
-type CopyState = "idle" | "copied" | "error";
+type CopyState = "idle" | "copied" | "error"
 
 export default function CopyEventButton({
     eventId,
@@ -27,25 +27,25 @@ export default function CopyEventButton({
     size,
     ...props // Any other button props (e.g., disabled)
 }: CopyEventButtonProps) {
-    const [copyState, setCopyState] = useState<CopyState>("idle");
+    const [copyState, setCopyState] = useState<CopyState>("idle")
 
     // Copy event URL to clipboard
     const handleCopy = () => {
         // Construct booking URL
-        const url = `${location.origin}/book/${clerkUserId}/${eventId}`;
+        const url = `${location.origin}/book/${clerkUserId}/${eventId}`
 
         navigator.clipboard
             .writeText(url) // Try to copy URL to clipboard
             .then(() => {
-                setCopyState("copied");
+                setCopyState("copied")
                 toast("Link copied successfully!", {
                     duration: 3000,
-                });
-                setTimeout(() => setCopyState("idle"), 2000);
+                })
+                setTimeout(() => setCopyState("idle"), 2000)
             })
             .catch(() => {
-                setCopyState("error");
-                setTimeout(() => setCopyState("idle"), 2000);
+                setCopyState("error")
+                setTimeout(() => setCopyState("idle"), 2000)
             })
     }
 
@@ -67,11 +67,11 @@ export default function CopyEventButton({
 function getCopyLabel(state: CopyState) {
     switch (state) {
         case "copied":
-            return "Copied!";
+            return "Copied!"
         case "error":
-            return "Error";
+            return "Error"
         case "idle":
         default:
-            return "Copy Link";
+            return "Copy Link"
     }
 }

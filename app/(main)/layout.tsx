@@ -1,9 +1,9 @@
-import PrivateNavBar from "@/components/PrivateNavBar";
-import PublicNavBar from "@/components/PublicNavBar";
+import PrivateNavBar from "@/components/PrivateNavBar"
+import PublicNavBar from "@/components/PublicNavBar"
 import { currentUser } from "@clerk/nextjs/server"
 
 export default async function MainLayout({ children }: { children: React.ReactNode }) {
-    const user = await currentUser();
+    const user = await currentUser()
 
     return (
         <main className="relative">

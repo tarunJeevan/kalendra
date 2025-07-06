@@ -1,20 +1,20 @@
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { CalendarPlus, CalendarRange } from "lucide-react";
-import { auth } from "@clerk/nextjs/server";
-import { getEvents } from "@/server/actions/events";
-import EventCard from "@/components/cards/EventCard";
+import { Button } from "@/components/ui/button"
+import Link from "next/link"
+import { CalendarPlus, CalendarRange } from "lucide-react"
+import { auth } from "@clerk/nextjs/server"
+import { getEvents } from "@/server/actions/events"
+import EventCard from "@/components/cards/EventCard"
 
 export default async function EventsPage() {
     // Get authenticated user
-    const { userId, redirectToSignIn } = await auth();
+    const { userId, redirectToSignIn } = await auth()
 
     // Redirect to sign in page if user not authenticated
     if (!userId)
-        return redirectToSignIn();
+        return redirectToSignIn()
 
     // Fetch all events tied to userId
-    const events = await getEvents(userId);
+    const events = await getEvents(userId)
 
     return (
         <section className="flex flex-col items-center gap-16 animate-fade-in">

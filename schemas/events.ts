@@ -1,4 +1,4 @@
-import z from "zod";
+import z from "zod"
 
 // Validation schema for event form using Zod
 export const eventFormSchema = z.object({
@@ -14,4 +14,4 @@ export const eventFormSchema = z.object({
         .int()
         .positive("Duration must be greater than 0")
         .max(60 * 12, `Duration must be less than 12 hours (${60 * 12} minutes)`),
-});
+})

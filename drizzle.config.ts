@@ -1,9 +1,9 @@
-import { defineConfig } from "drizzle-kit";
+import { defineConfig } from "drizzle-kit"
 
-const databaseUrl = process.env.DATABASE_URL;
+const databaseUrl = process.env.DATABASE_URL
 
 if (!databaseUrl)
-    throw new Error("DATABASE_URL is not defined in environment variables.");
+    throw new Error("DATABASE_URL is not defined in environment variables.")
 
 // Define and export Drizzle config
 export default defineConfig({
@@ -15,4 +15,4 @@ export default defineConfig({
     dbCredentials: {
         url: databaseUrl,
     },
-});
+})
