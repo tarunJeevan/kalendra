@@ -130,3 +130,21 @@ export async function getEvent(
     // Explicitly return underfined if not found
     return event ?? undefined
 }
+
+// Type based on EventRow omitting the isPublic field since all returned events MUST be public
+export type PublicEvent = Omit<EventRow, "isPublic"> & { isPublic: true }
+
+// Fetch all public events for a given user
+export async function getPublicEvents(clerkUserId: string): Promise<PublicEvent[]> {
+    // Query database for public events belonging to user with the given clerkUserId
+    const events = await db.query.EventTable.findMany({
+        where: ({ clerkUserId: userIdCol, isPublic }, { eq, and }) =>
+            and(
+                eq(userIdCol, clerkUserId),
+                eq(isPublic, true)
+            ),
+        orderBy: ({ name }, { asc, sql }) => asc(sql`lower(${name})`)
+    })
+
+    return events as PublicEvent[]
+}
