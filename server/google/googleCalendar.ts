@@ -1,8 +1,8 @@
 'use server'
 
 import { clerkClient } from "@clerk/nextjs/server"
-import { endOfDay, startOfDay } from "date-fns"
-import { google } from "googleapis"
+import { addMinutes, endOfDay, startOfDay } from "date-fns"
+import { calendar_v3, google } from "googleapis"
 
 // Get OAuth client for Google API operations
 async function getOAuthClient(clerkUserId: string) {
@@ -81,5 +81,79 @@ export async function getCalendarEventTimes(
         )
     } catch (error: any) {
         throw new Error(`Failed to fetch calendar events: ${error.message || error}`)
+    }
+}
+
+// Create Google Calendar meeting with necessary details
+export async function createCalendarEvent({
+    clerkUserId,
+    guestName,
+    guestEmail,
+    guestNotes,
+    startTime,
+    durationInMins,
+    eventName
+}: {
+    clerkUserId: string,
+    guestName: string,
+    guestEmail: string,
+    guestNotes?: string | undefined,
+    startTime: Date,
+    durationInMins: number,
+    eventName: string
+}): Promise<calendar_v3.Schema$Event> {
+    try {
+        // Get OAuth client
+        const oAuthClient = await getOAuthClient(clerkUserId)
+
+        // Throw error if there is no OAuth client
+        if (!oAuthClient)
+            throw new Error("OAuth client could not be obtained.")
+
+        // Get Clerk client and user
+        const client = await clerkClient()
+        const calendarUser = await client.users.getUser(clerkUserId)
+
+        // Get user's primary email
+        const primaryEmail = calendarUser.emailAddresses.find(
+            ({ id }) => id === calendarUser.primaryEmailAddressId
+        )
+
+        // Throw error if primary email not found
+        if (!primaryEmail)
+            throw new Error("Clerk user has no email.")
+
+        // Create Google Calendar event
+        const calendarEvent = await google.calendar("v3").events.insert({
+            calendarId: "primary",
+            auth: oAuthClient,
+            sendUpdates: "all",
+            requestBody: {
+                attendees: [
+                    { email: guestEmail, displayName: guestName },
+                    {
+                        email: primaryEmail.emailAddress,
+                        displayName: calendarUser.fullName,
+                        responseStatus: "accepted"
+                    }
+                ],
+                description: guestNotes
+                    ? `Additional details; ${guestNotes}`
+                    : "No additional details.",
+                start: {
+                    dateTime: startTime.toISOString()
+                },
+                end: {
+                    dateTime: addMinutes(startTime, durationInMins).toISOString()
+                },
+                summary: `${guestName} + ${calendarUser.fullName}: ${eventName}`
+            }
+        })
+
+        // Return calendar event data
+        return calendarEvent.data
+    } catch (error: any) {
+        console.error(`Error creating calendar event: ${error.message || error}`)
+        throw new Error(`Failed to create Kalendra event: ${error.message || error}`)
     }
 }

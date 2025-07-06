@@ -5,6 +5,7 @@ import { getValidTimesFromSchedule } from "@/server/actions/schedule"
 import NoTimeSlots from "@/components/NoTimeSlots"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { clerkClient } from "@clerk/nextjs/server"
+import MeetingForm from "@/components/forms/MeetingForm"
 
 export default async function BookingPage({
     params
@@ -33,8 +34,8 @@ export default async function BookingPage({
         nearestTo: 15,
         roundingMethod: "ceil"
     })
-
     const endDate = endOfDay(addYears(startDate, 1))
+
     const validTimes = await getValidTimesFromSchedule(
         eachMinuteOfInterval({
             start: startDate,

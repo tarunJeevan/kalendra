@@ -10,7 +10,7 @@ import { BatchItem } from "drizzle-orm/batch"
 import { revalidatePath } from "next/cache"
 import { getCalendarEventTimes } from "../google/googleCalendar"
 import { DAYS_OF_WEEK_IN_ORDER } from "@/constants"
-import { addMinutes, areIntervalsOverlapping, isMonday, isWithinInterval, setHours, setMinutes } from "date-fns"
+import { addMinutes, areIntervalsOverlapping, isFriday, isMonday, isSaturday, isSunday, isThursday, isTuesday, isWednesday, isWithinInterval, setHours, setMinutes } from "date-fns"
 import { fromZonedTime } from "date-fns-tz"
 
 // ScheduleRow, AvailabilityRow and FullSchedule type defs
@@ -101,7 +101,7 @@ export async function getValidTimesFromSchedule(
 
     // Define start and end of overall time period
     const start = timesInOrder[0]
-    const end = timesInOrder[-1]
+    const end = timesInOrder.at(-1)
 
     // If start or end is missing, there are no times to check
     if (!start || !end)
@@ -110,7 +110,7 @@ export async function getValidTimesFromSchedule(
     const schedule = await getSchedule(userId)
 
     // If there is no schedule, return an empty list
-    if (!schedule)
+    if (schedule == null)
         return []
 
     // Group availabilities by day
@@ -134,7 +134,7 @@ export async function getValidTimesFromSchedule(
 
         const eventInterval = {
             start: intervalDate,
-            end: addMinutes(intervalDate, event.durationInMins)
+            end: addMinutes(intervalDate, durationInMins)
         }
 
         return (
@@ -166,17 +166,17 @@ function getAvailabilities(
     const dayOfWeek = (() => {
         if (isMonday(date))
             return "monday"
-        if (isMonday(date))
+        if (isTuesday(date))
             return "tuesday"
-        if (isMonday(date))
+        if (isWednesday(date))
             return "wednesday"
-        if (isMonday(date))
+        if (isThursday(date))
             return "thursday"
-        if (isMonday(date))
+        if (isFriday(date))
             return "friday"
-        if (isMonday(date))
+        if (isSaturday(date))
             return "saturday"
-        if (isMonday(date))
+        if (isSunday(date))
             return "sunday"
         return null
     })()

@@ -8,7 +8,7 @@ export function formatEventDuration(durationInMins: number): string {
     // Format hours string
     const hrsString = `${hrs} ${hrs > 1 ? "hrs" : "hr"}`
     // Format minutes string
-    const minsString = `${mins} ${mins > 1 ? "hrs" : "hr"}`
+    const minsString = `${mins} ${mins > 1 ? "mins" : "mins"}`
 
     // Return only mins if there are no full hours
     if (hrs === 0)
@@ -28,4 +28,35 @@ export function formatTimezoneOffset(timezone: string): string | undefined {
     })
         .formatToParts(new Date())
         .find(part => part.type == "timeZoneName")?.value
+}
+
+// Formatter for displaying only the time
+const timeFormatter = new Intl.DateTimeFormat(undefined, {
+    timeStyle: "short"
+})
+
+// Format Date into short-style time string
+export function formatTimeString(date: Date) {
+    return timeFormatter.format(date)
+}
+
+// Formatter for displaying only the date
+const dateFormatter = new Intl.DateTimeFormat(undefined, {
+    dateStyle: "medium"
+})
+
+// Format Date into medium-style date string
+export function formatDate(date: Date) {
+    return dateFormatter.format(date)
+}
+
+// Formatter for displaying date and time
+const dateTimeFormatter = new Intl.DateTimeFormat(undefined, {
+    dateStyle: "medium",
+    timeStyle: "short"
+})
+
+// Format Date into date-time string
+export function formatDateTime(date: Date) {
+    return dateTimeFormatter.format(date)
 }
