@@ -1,6 +1,9 @@
 # Personal Calendar App
 A scheduling app based on Calendly built using Next.js, TypeScript, TailwindCSS, Clerk, Neon database, and Drizzle ORM. 
 
+## Incomplete
+Currently on hiatus. Requires bug fixes, icons, etc.
+
 
 ## Improvements
 - [ ] Add delayed event activation (set a date and time for an event to become public)
